@@ -15,13 +15,13 @@ public class Edge {
 	private Vertex u;
 	private Vertex v;
 	private double weight;
-	private Color colour = Color.WHITE;
+	private Color color = Color.WHITE;
 	
-	public Edge(Vertex u, Vertex v, double weight, Color colour) {
+	public Edge(Vertex u, Vertex v, double weight, Color color) {
 		this.u = u;
 		this.v = v;
 		this.weight = weight;
-		this.colour = colour;
+		this.color = color;
 	} // ctor
 
 	// Getters and setters
@@ -31,6 +31,14 @@ public class Edge {
 
 	public void setU(Vertex u) {
 		this.u = u;
+	}
+	
+	public Vertex getU() {
+		return this.u;
+	}
+	
+	public Vertex getV() {
+		return this.v;
 	}
 	
 	public void setV(Vertex v) {
@@ -45,11 +53,11 @@ public class Edge {
 		this.weight = weight;
 	}
 
-	public Color getColour() {
-		return colour;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setColour(Color colour) {
-		this.colour = colour;
+	public void setColor(Color color) {
+		this.color = color;
 	}
-} // class
+} 

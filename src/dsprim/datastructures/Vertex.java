@@ -17,7 +17,7 @@ public class Vertex {
 	private int ID;
 	private boolean visited;
 	private List<Edge> edges;
-	private Color colour = Color.WHITE;
+	private Color color = Color.WHITE;
 	private int x;  // Coordinates for GUI 
 	private int y;
 	
@@ -44,7 +44,7 @@ public class Vertex {
 	public void addEdge(Edge e) {
 		edges.add(e);
 	}
-
+	
 	// Getters and setters
 	public int getID() {
 		return ID;
@@ -62,12 +62,12 @@ public class Vertex {
 		return edges;
 	}
 
-	public Color getColour() {
-		return colour;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setColour(Color colour) {
-		this.colour = colour;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public int getX() {
@@ -109,4 +109,4 @@ public class Vertex {
 	public int getHeapIdx() {
 		return heapIdx;
 	}
-} // class
+} 
