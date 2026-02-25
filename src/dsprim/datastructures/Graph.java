@@ -23,12 +23,15 @@ public class Graph {
 
 	public Graph() {}
 	
-	// Vertices getter
+	// Getters
 	public Collection<Vertex> getVertices() {
 		return vertices.values();
 	}
+	
+	public int getVertexCount() {
+		return vertices.size();
+	}
 
-	// Edges getter
 	public Set<Edge> getEdges() {
 		return edges;
 	}

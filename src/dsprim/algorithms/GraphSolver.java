@@ -12,10 +12,11 @@ public class GraphSolver implements Runnable {
 	private boolean isDijkstra;  // true for using Dijkstra; false for Prim
 	private AnimationCallback callback;
 	
-	public GraphSolver(Graph graph, Fringe fringe, Vertex origin, boolean isDijkstra) {
+	public GraphSolver(Graph graph, Fringe fringe, Vertex origin, AnimationCallback callback, boolean isDijkstra) {
 		this.graph = graph;
 		this.fringe = fringe;
 		this.origin = origin;
+		this.callback = callback;
 		this.isDijkstra = isDijkstra;
 	} // ctor
 
