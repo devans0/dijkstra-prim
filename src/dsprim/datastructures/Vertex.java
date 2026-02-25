@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class Vertex {
 	private int ID;
+	private boolean visited;
 	private List<Edge> edges;
 	private Color colour = Color.WHITE;
 	private int x;  // Coordinates for GUI 
@@ -32,21 +33,29 @@ public class Vertex {
 		this.x = x;
 		this.y = y;
 		this.edges = new ArrayList<Edge>();
+		visited = false;
 	} // ctor
 	
 	/**
-	 * Add a new edge to the node
+	 * Adds a new edge to the vertex's adjacency list.
 	 * 
-	 * @param n the neighbouring node the new edge leads to.
-	 * @param w the weight of the new edge.
+	 * @param e the new edge to add to the adjacency list
 	 */
-	public void addEdge(Vertex n, double w) {
-		edges.add(new Edge(n, w, Color.WHITE));
+	public void addEdge(Edge e) {
+		edges.add(e);
 	}
 
 	// Getters and setters
 	public int getID() {
 		return ID;
+	}
+	
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+	
+	public boolean isVisited() {
+		return visited;
 	}
 	
 	public List<Edge> getEdges() {

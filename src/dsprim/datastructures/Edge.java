@@ -1,6 +1,6 @@
 /**
  * title: Graph Edge
- * description: Represents an edge in a graph between two vertices
+ * description: Represents an undirected edge in a graph between two vertices
  * @author Dominic Evans
  * @date February 24, 2026
  * @version 1.0
@@ -12,23 +12,29 @@ package dsprim.datastructures;
 import java.awt.Color;
 
 public class Edge {
-	private Vertex neighbour;
+	private Vertex u;
+	private Vertex v;
 	private double weight;
 	private Color colour = Color.WHITE;
 	
-	public Edge(Vertex n, double weight, Color colour) {
-		this.neighbour = n;
+	public Edge(Vertex u, Vertex v, double weight, Color colour) {
+		this.u = u;
+		this.v = v;
 		this.weight = weight;
 		this.colour = colour;
 	} // ctor
 
 	// Getters and setters
-	public Vertex getNeighbour() {
-		return neighbour;
+	public Vertex getOpposite(Vertex curr) {
+		return (curr == u) ? v : u;
 	}
 
-	public void setNeighbour(Vertex neighbour) {
-		this.neighbour = neighbour;
+	public void setU(Vertex u) {
+		this.u = u;
+	}
+	
+	public void setV(Vertex v) {
+		this.v = v;
 	}
 
 	public double getWeight() {

@@ -14,8 +14,8 @@ import java.awt.Color;
 import java.util.HashMap;
 
 public class Graph {
-	private Map<Integer, Vertex> nodes = new HashMap<Integer, Vertex>();
-	private int nodeCount = 0;
+	private Map<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
+	private int vertexCount = 0;
 
 	public Graph() {}
 	
@@ -27,25 +27,22 @@ public class Graph {
 	 * @return The newly created node.
 	 */
 	public Vertex addNode(int x, int y) {
-		Vertex n = new Vertex(++nodeCount, x, y);
-		nodes.put(n.getID(), n);
+		Vertex n = new Vertex(++vertexCount, x, y);
+		vertices.put(n.getID(), n);
 		return n;
 	}
 
 	/**
-	 * Adds a new edge to the graph between two extant vertices.
+	 * Connects two graph vertices together.
 	 * 
-	 * @param u      the first vertex in the new edge identified by its integer ID
-	 * @param v      the second vertex in the new edge identified by its integer ID
-	 * @param weight the weight of the new edge
+	 * @param v1 The first vertex.
+	 * @param v2 The second vertex.
+	 * @param weight The weight of the edge.
 	 */
-	public void addEdge(int u, int v, double weight) {
-		Vertex n1 = nodes.get(u);
-		Vertex n2 = nodes.get(v);
-		if (n1 != null && n2 != null) {
-			n1.addEdge(n2, weight);
-			n2.addEdge(n1, weight);
-		}
+	public void connect(Vertex v1, Vertex v2, double weight) {
+		Edge e = new Edge(v1, v2, weight, Color.WHITE);
+		v1.addEdge(e);
+		v2.addEdge(e);
 	}
 	
 	/**
@@ -53,7 +50,7 @@ public class Graph {
 	 * be run on it again.
 	 */
 	public void reset() {
-		for (Vertex n : nodes.values()) {
+		for (Vertex n : vertices.values()) {
 			n.setDistance(Double.POSITIVE_INFINITY);
 			n.setParent(null);
 			n.setColour(Color.WHITE);
