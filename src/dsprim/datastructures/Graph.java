@@ -1,3 +1,12 @@
+/**
+ * title: Graph
+ * description: Data structure for representing undirected weighted graphs via an adjacency list.
+ * @author Dominic Evans
+ * @date February 24, 2026
+ * @version 1.0
+ * @copyright 2026 Dominic Evans
+ */
+
 package dsprim.datastructures;
 
 import java.util.Map;
@@ -5,7 +14,7 @@ import java.awt.Color;
 import java.util.HashMap;
 
 public class Graph {
-	private Map<Integer, Node> nodes = new HashMap<Integer, Node>();
+	private Map<Integer, Vertex> nodes = new HashMap<Integer, Vertex>();
 	private int nodeCount = 0;
 
 	public Graph() {}
@@ -17,8 +26,8 @@ public class Graph {
 	 * @param y the y-coordinate for the new node.
 	 * @return The newly created node.
 	 */
-	public Node addNode(int x, int y) {
-		Node n = new Node(++nodeCount, x, y);
+	public Vertex addNode(int x, int y) {
+		Vertex n = new Vertex(++nodeCount, x, y);
 		nodes.put(n.getID(), n);
 		return n;
 	}
@@ -31,8 +40,8 @@ public class Graph {
 	 * @param weight the weight of the new edge
 	 */
 	public void addEdge(int u, int v, double weight) {
-		Node n1 = nodes.get(u);
-		Node n2 = nodes.get(v);
+		Vertex n1 = nodes.get(u);
+		Vertex n2 = nodes.get(v);
 		if (n1 != null && n2 != null) {
 			n1.addEdge(n2, weight);
 			n2.addEdge(n1, weight);
@@ -44,7 +53,7 @@ public class Graph {
 	 * be run on it again.
 	 */
 	public void reset() {
-		for (Node n : nodes.values()) {
+		for (Vertex n : nodes.values()) {
 			n.setDistance(Double.POSITIVE_INFINITY);
 			n.setParent(null);
 			n.setColour(Color.WHITE);

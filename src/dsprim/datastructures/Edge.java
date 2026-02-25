@@ -1,24 +1,33 @@
+/**
+ * title: Graph Edge
+ * description: Represents an edge in a graph between two vertices
+ * @author Dominic Evans
+ * @date February 24, 2026
+ * @version 1.0
+ * @copyright 2026 Dominic Evans
+ */
+
 package dsprim.datastructures;
 
 import java.awt.Color;
 
 public class Edge {
-	private Node neighbour;
+	private Vertex neighbour;
 	private double weight;
 	private Color colour = Color.WHITE;
 	
-	public Edge(Node n, double weight, Color colour) {
+	public Edge(Vertex n, double weight, Color colour) {
 		this.neighbour = n;
 		this.weight = weight;
 		this.colour = colour;
 	} // ctor
 
 	// Getters and setters
-	public Node getNeighbour() {
+	public Vertex getNeighbour() {
 		return neighbour;
 	}
 
-	public void setNeighbour(Node neighbour) {
+	public void setNeighbour(Vertex neighbour) {
 		this.neighbour = neighbour;
 	}
 

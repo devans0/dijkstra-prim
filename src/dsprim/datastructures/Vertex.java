@@ -1,10 +1,19 @@
+/**
+ * title: Node
+ * description: Used for representing a vertex of a graph.
+ * @author Dominic Evans
+ * @date February 24, 2026
+ * @version 1.0
+ * @copyright 2026 Dominic Evans
+ */
+
 package dsprim.datastructures;
 
 import java.awt.Color;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Node {
+public class Vertex {
 	private int ID;
 	private List<Edge> edges;
 	private Color colour = Color.WHITE;
@@ -13,9 +22,12 @@ public class Node {
 	
 	// Dijkstra and Prim defaults
 	private double distance = Double.POSITIVE_INFINITY;
-	private Node parent = null;
+	private Vertex parent = null;
 	
-	public Node(int ID, int x, int y) {
+	// Binary Heap bookkeeping
+	private int heapIdx;
+	
+	public Vertex(int ID, int x, int y) {
 		this.ID = ID;
 		this.x = x;
 		this.y = y;
@@ -28,7 +40,7 @@ public class Node {
 	 * @param n the neighbouring node the new edge leads to.
 	 * @param w the weight of the new edge.
 	 */
-	public void addEdge(Node n, double w) {
+	public void addEdge(Vertex n, double w) {
 		edges.add(new Edge(n, w, Color.WHITE));
 	}
 
@@ -73,11 +85,19 @@ public class Node {
 		this.distance = distance;
 	}
 
-	public Node getParent() {
+	public Vertex getParent() {
 		return parent;
 	}
 
-	public void setParent(Node parent) {
+	public void setParent(Vertex parent) {
 		this.parent = parent;
+	}
+	
+	public void setHeapIdx(int idx) {
+		heapIdx = idx;
+	}
+	
+	public int getHeapIdx() {
+		return heapIdx;
 	}
 } // class
