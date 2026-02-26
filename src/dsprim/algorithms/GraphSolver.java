@@ -22,13 +22,17 @@ public class GraphSolver implements Runnable {
 
 	@Override
 	public void run() {
+		if (callback != null) {
+			callback.onRunStart();
+		}
 		graph.reset();
 		origin.setDistance(0);
+		origin.setState(Vertex.State.IN_FRINGE);
 		fringe.add(origin);
 		
 		while (!fringe.isEmpty()) {
 			Vertex u = fringe.extractMin();
-			u.setVisited(true);
+			u.setState(Vertex.State.VISITED);
 			
 			// Alert the GUI of each step completed and pause to 
 			// give it time to update
@@ -39,16 +43,16 @@ public class GraphSolver implements Runnable {
 
 			for (Edge e : u.getEdges()) {
 				Vertex v = e.getOpposite(u);
-				if (v.isVisited()) {
+				if (v.getState() == Vertex.State.VISITED) {
 					continue;
 				}
 				double newDist = isDijkstra ? (u.getDistance() + e.getWeight()) : e.getWeight();
 				if (newDist < v.getDistance()) {
-					boolean isNew = (v.getDistance() == Double.POSITIVE_INFINITY);
 					v.setDistance(newDist);
 					v.setParent(u);
 
-					if (isNew) {
+					if (v.getState() == Vertex.State.UNVISITED) {
+						v.setState(Vertex.State.IN_FRINGE);
 						fringe.add(v);
 					} else {
 						fringe.update(v, newDist);

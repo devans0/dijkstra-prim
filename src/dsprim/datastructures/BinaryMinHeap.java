@@ -68,10 +68,14 @@ public class BinaryMinHeap implements Fringe {
 		}
 
 		vertexHeap[0] = vertexHeap[size - 1];
-		vertexHeap[0].setHeapIdx(0);
+		vertexHeap[size - 1] = null;
 		size--;
+		
+		if (size > 0) {
+			vertexHeap[0].setHeapIdx(0);
+			enforceMinHeap(0);
+		}
 
-		enforceMinHeap(0);
 		return root;
 	}
 
@@ -85,13 +89,9 @@ public class BinaryMinHeap implements Fringe {
 		if (node == null) {
 			return;
 		}
-		double oldDist = node.getDistance();
 		node.setDistance(newDist);
-		if (oldDist > newDist) {
-			bubbleUp(node.getHeapIdx());
-		} else if (oldDist < newDist) {
-			enforceMinHeap(node.getHeapIdx());
-		}
+		// Prim/Dijkstra never increase distances
+		bubbleUp(node.getHeapIdx());
 	}
 	
 	/**

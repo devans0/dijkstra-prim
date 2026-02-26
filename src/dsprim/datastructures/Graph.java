@@ -163,12 +163,22 @@ public class Graph {
 		for (Vertex n : vertices.values()) {
 			n.setDistance(Double.POSITIVE_INFINITY);
 			n.setParent(null);
-			n.setColor(Color.WHITE);
+			n.setState(Vertex.State.UNVISITED);
 			n.setVisited(false);
 			// Set edge color back to default
 			for (Edge e : n.getEdges()) {
 				e.setColor(Color.WHITE);
 			}
 		}
+	}
+	
+	/**
+	 * Clears the graph, resetting it to an empty state; the same as just after a new
+	 * graph is constructed.
+	 */
+	public void clear() {
+		this.vertices.clear();
+		this.edges.clear();
+		this.vertexCount = 0;
 	}
 }

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ffmpeg -framerate 2 -pattern_type glob -i 'output_frames/*.png' -filter_complex "[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse" "${1}"

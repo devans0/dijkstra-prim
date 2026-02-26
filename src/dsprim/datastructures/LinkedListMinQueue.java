@@ -63,16 +63,10 @@ public class LinkedListMinQueue implements Fringe {
 		if (head == null) {
 			return null;
 		}
-		double minDist = Double.POSITIVE_INFINITY;
-		Link<Vertex> curr = head;
-		Link<Vertex> min = null;
-		// Case where there is only one element in the list
-		if (curr == tail) {
-			head = null; 
-			tail = null;
-			size--;
-			return curr.element;
-		}
+		Link<Vertex> min = head;
+		double minDist = min.element.getDistance();
+		Link<Vertex> curr = head.next;
+
 		// Scan the list and find the minimum element
 		while (curr != null) {
 			if (curr.element.getDistance() < minDist) {
@@ -107,8 +101,8 @@ public class LinkedListMinQueue implements Fringe {
 	}
 
 	@Override
-	public void update(Vertex node, double newDist) {
-		node.setDistance(newDist);
+	public void update(Vertex vertex, double newDist) {
+		vertex.setDistance(newDist);
 	}
 
 }

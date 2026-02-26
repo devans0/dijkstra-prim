@@ -50,7 +50,6 @@ public class GraphController extends MouseAdapter {
 			// User has indicated that a new vertex is to be created
 			if (clicked == null) {
 				graph.addVertex(e.getX(), e.getY());
-				view.setVertexMode(false); // Creating a vertex exits vertex mode
 			}
 		} else if (clicked != null) {
 			// Click to select

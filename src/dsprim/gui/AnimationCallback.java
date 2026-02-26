@@ -11,4 +11,5 @@ package dsprim.gui;
 
 public interface AnimationCallback {
 	void onStepCompleted();
+	void onRunStart();
 }

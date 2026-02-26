@@ -14,14 +14,18 @@
 package dsprim.gui;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import dsprim.datastructures.*;
 
-public class GraphGUI extends JPanel {
+public class GraphGUI extends JPanel implements AnimationCallback {
 	private static final long serialVersionUID = 1L;
 	private Graph graph;
 	public static final int RADIUS = 15; // Use to adjust radius of the drawn vertices
@@ -29,6 +33,8 @@ public class GraphGUI extends JPanel {
 	private Vertex dragSource = null;
 	private Point mousePos = null;
 	private boolean isVertexMode = false;
+	private boolean recording = false;
+	private int frameCount = 0;
 
 	public GraphGUI(Graph graph) {
 		this.graph = graph;
@@ -48,6 +54,10 @@ public class GraphGUI extends JPanel {
 		isVertexMode = vertexMode;
 	}
 	
+	public void setRecording(boolean recording) {
+		this.recording = recording;
+	}
+	
 	// Getters
 	public List<Vertex> getSelectedVertices() {
 		return selectedVertices;
@@ -60,7 +70,16 @@ public class GraphGUI extends JPanel {
 	public Vertex getDragSource() {
 		return dragSource;
 	}
+	
+	public boolean isRecording() {
+		return this.recording;
+	}
 
+	/**
+	 * Toggles a vertex selection state.
+	 * 
+	 * @param v the vertex being interacted with.
+	 */
 	public void toggleSelection(Vertex v) {
 		if (selectedVertices.contains(v)) {
 			selectedVertices.remove(v);
@@ -97,8 +116,19 @@ public class GraphGUI extends JPanel {
 			Vertex u = e.getU();
 			Vertex v = e.getV();
 
-			g2.setColor(e.getColor());
+			// Draw the lines
+			// Colors and boldness depends on line status as parts of the tree
+			if (v.getParent() == u || u.getParent() == v) {
+				g2.setColor(Color.ORANGE);
+				g2.setStroke(new BasicStroke(3));
+			} else {
+				g2.setColor(new Color(100, 100, 100, 80));
+				g2.setStroke(new BasicStroke(1));
+			}
 			g2.drawLine(u.getX(), u.getY(), v.getX(), v.getY());
+			
+			// Reset stroke for labels
+			g2.setStroke(new BasicStroke(2));
 
 			// Weight label
 			int midX = (u.getX() + v.getX()) / 2;
@@ -122,7 +152,7 @@ public class GraphGUI extends JPanel {
 			// Change draw values based on selected status
 			boolean isSelected = selectedVertices.contains(v);
 			BasicStroke stroke = isSelected ? new BasicStroke(3) : new BasicStroke(2);
-			Color circleColor = isSelected ? Color.CYAN : v.getColor();
+			Color circleColor = isSelected ? Color.GREEN : v.getColor();
 			Color borderColor = isSelected ? Color.WHITE : Color.BLACK;
 
 			// Circle
@@ -140,6 +170,102 @@ public class GraphGUI extends JPanel {
 					: String.format("%.1f", v.getDistance());
 			g2.drawString(label, v.getX() - (RADIUS * 0.66f), v.getY() + (RADIUS * 0.33f));
 		}
-
+	}
+	
+	/**
+	 * Initializes frame count and the image directory when a run is being recorded.
+	 */
+	@Override
+	public void onRunStart() {
+		if (recording) {
+			this.frameCount = 0;
+			prepareImageOutputDir();
+		}
+	}
+	
+	/**
+	 * AnimationCallback implementation for handling animation steps.
+	 */
+	@Override
+	public void onStepCompleted() {
+		this.repaint();
+		if (recording) {
+			saveFrame(frameCount++);
+		}
+	}
+	
+	/**
+	 * Saves an image every time the canvas is drawn. These images are used to
+	 * generate animations of the executions of the algorithms.
+	 * 
+	 * @param frameNumber the number of draws since the GraphSolver started. Used to
+	 *                    provide names to image files.
+	 */
+	public void saveFrame(int frameNumber) {
+		BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2 = image.createGraphics();
+		
+		this.paintAll(g2);
+		g2.dispose();
+		
+		try {
+			File imgDir = new File("output_frames");
+			if (!imgDir.exists()) {
+				imgDir.mkdir();
+			}
+			File imgFile = new File(imgDir, String.format("frame_%03d.png", frameNumber));
+			ImageIO.write(image, "png", imgFile);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Prepares a directory in the current working directory called "output_frames"
+	 * for the storage of the images generated when the application is recording its
+	 * run.
+	 */
+	public void prepareImageOutputDir() {
+		File imgDir = new File("output_frames");
+		if (imgDir.exists()) {
+			File[] files = imgDir.listFiles();
+			if (files == null) {
+				return;
+			}
+			for (File f : files) {
+				f.delete();				
+			}
+		} else {
+			imgDir.mkdir();
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

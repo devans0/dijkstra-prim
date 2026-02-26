@@ -17,7 +17,6 @@ public class Vertex {
 	private int ID;
 	private boolean visited;
 	private List<Edge> edges;
-	private Color color = Color.WHITE;
 	private int x;  // Coordinates for GUI 
 	private int y;
 	
@@ -27,6 +26,10 @@ public class Vertex {
 	
 	// Binary Heap bookkeeping
 	private int heapIdx;
+	
+	// Track the state of the vertex during Dijkstra/Prim solve
+	public enum State { UNVISITED, IN_FRINGE, VISITED }
+	private State currentState = State.UNVISITED;
 	
 	public Vertex(int ID, int x, int y) {
 		this.ID = ID;
@@ -63,11 +66,22 @@ public class Vertex {
 	}
 
 	public Color getColor() {
-		return color;
+		switch (currentState) {
+		case VISITED:
+			return Color.ORANGE;
+		case IN_FRINGE:
+			return Color.CYAN;
+		default:
+			return Color.LIGHT_GRAY;
+		}
 	}
-
-	public void setColor(Color color) {
-		this.color = color;
+	
+	public State getState() {
+		return this.currentState;
+	}
+	
+	public void setState(State s) {
+		this.currentState = s;
 	}
 
 	public int getX() {
